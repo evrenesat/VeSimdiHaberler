@@ -198,7 +198,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if segue.identifier == "haber_goster" {
+        if segue.identifier == "haber_goster" && segue.identifier == "haber_goster2"{
             if let path = tableView.indexPathForSelectedRow(){
                 let viewController = segue.destinationViewController as PostViewController
                 //                let haber  =

@@ -137,7 +137,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="cUT-P8-jRQ" kind="show" identifier="haber_goster" id="ofc-2G-jfE"/>
+                                    <segue destination="cUT-P8-jRQ" kind="show" identifier="haber_goster2" id="ofc-2G-jfE"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HaberHucresi2" textLabel="Yfh-AR-dt0" detailTextLabel="Ff9-bZ-xLH" style="IBUITableViewCellStyleSubtitle" id="ouJ-Pv-BjF">
@@ -223,6 +223,6 @@
         <image name="ok" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uNl-Rd-e06"/>
+        <segue reference="ofc-2G-jfE"/>
     </inferredMetricsTieBreakers>
 </document>
