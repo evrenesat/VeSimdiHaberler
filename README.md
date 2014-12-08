@@ -8,4 +8,5 @@ Bu proje İzmir Kalkınma Ajansı desteğiyle yürütülen Mobil-İz (http://mob
 
 Gereklilikler
 ==============
-Veritabanı olarak http://realm.io adresinden indirilebilecek Realm.io mobil veritabanı kullanılmıştır.
+Xcode 6.1
+Realm Mobile DataBase (http://realm.io adresinden indirilebilir)
