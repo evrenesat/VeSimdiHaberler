@@ -9,4 +9,5 @@ Bu proje İzmir Kalkınma Ajansı desteğiyle yürütülen Mobil-İz (http://mob
 Gereklilikler
 ==============
 Xcode 6.1
+
 Realm Mobile DataBase (http://realm.io adresinden indirilebilir)
