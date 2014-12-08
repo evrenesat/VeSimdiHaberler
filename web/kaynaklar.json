@@ -1,0 +1,68 @@
+{
+    "kategoriler": [
+        {
+            "id": "1",
+            "isim": "Haberler",
+            "gorsel": "haber.png",
+            "secili": false,
+            "kaynak": [
+                {
+                    "id": "1.1",
+                    "isim": "NY Times International",
+                    "url": "http://www.nytimes.com/services/xml/rss/nyt/International.xml"
+                },
+                {
+                    "id": "1.2",
+                    "isim": "Hurriyet",
+                    "url": "http://rss.hurriyet.com.tr/rss.aspx?sectionId=2"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "isim": "Teknoloji",
+            "gorsel": "tekno.png",
+                    "secili": false,
+            "kaynak": [
+                {
+                    "id": "2.1",
+                    "isim": "Chip",
+                    "url": "http://servis.chip.com.tr/chiponline.xml"
+                },
+                {
+                    "id": "2.2",
+                    "isim": "NTVMSNBC Teknoloji",
+                    "url": "http://www.ntvmsnbc.com/id/24927532/device/rss/rss.xml"
+                },
+                {
+                    "id": "2.3",
+                    "isim": "MIT",
+                    "url": "http://web.mit.edu/newsoffice/topic/mitinnovation-rss.xml"
+                }
+            ]
+        },
+		
+		
+        {
+            "id": "3",
+            "isim": "Doğa",
+                    "secili": false,
+            "gorsel": "tekno.png",
+            "kaynak": [
+                {
+                    "id": "3.1",
+                    "isim": "National Geographic",
+                    "url": "http://news.nationalgeographic.com/index.rss"
+                },
+                {
+                    "id": "3.2",
+                    "isim": "BBC Science & Environment",
+                    "url": "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml"
+                }
+            ]
+        }		
+		
+		
+		
+    ]
+}
