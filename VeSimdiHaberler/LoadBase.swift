@@ -26,28 +26,29 @@ class loadBaseData{
     
     
     func veriIsle(kaynak: NSData!, response: NSURLResponse!, error: NSError!){
-        // json verisini satır satır işleyerek kategori ve haber kaynaklarını 
+        // json verisini satır satır işleyerek kategori ve haber kaynaklarını
         // veritabanına kayediyor ve kategori görsellerini indiriyoruz.
         let realm = RLMRealm.defaultRealm()
-        var jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(kaynak,
-            options: NSJSONReadingOptions.MutableContainers, error: nil) as NSDictionary
-        for kategori in jsonResult["kategoriler"] as [NSDictionary]{
-            realm.transactionWithBlock() {
-                var kategoriVarmi = Kategori.objectsWhere("isim = %@", kategori["isim"] as String)
-                var kategoriSecilimi = kategoriVarmi.count > 0 ? (kategoriVarmi.firstObject() as Kategori).secili : false
-                var dbkategori = Kategori.createOrUpdateInDefaultRealmWithObject(kategori)
-                dbkategori.secili = kategoriSecilimi
-                for kaynak in kategori["kaynak"] as [NSMutableDictionary]{
-                    kaynak["kategori"] = dbkategori
-                    Kaynak.createOrUpdateInDefaultRealmWithObject(kaynak)
+        if let jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(kaynak,
+            options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary{
+                for kategori in jsonResult["kategoriler"] as [NSDictionary]{
+                    realm.transactionWithBlock() {
+                        var kategoriVarmi = Kategori.objectsWhere("isim = %@", kategori["isim"] as String)
+                        var kategoriSecilimi = kategoriVarmi.count > 0 ? (kategoriVarmi.firstObject() as Kategori).secili : false
+                        var dbkategori = Kategori.createOrUpdateInDefaultRealmWithObject(kategori)
+                        dbkategori.secili = kategoriSecilimi
+                        for kaynak in kategori["kaynak"] as [NSMutableDictionary]{
+                            kaynak["kategori"] = dbkategori
+                            Kaynak.createOrUpdateInDefaultRealmWithObject(kaynak)
+                        }
+                    }
+                    self.gorseliIndir(kategori["gorsel"] as String)
                 }
-            }
-            self.gorseliIndir(kategori["gorsel"] as String)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.kategoriEkrani?.reloadData()
+                    return
+                }
         }
-        dispatch_async(dispatch_get_main_queue()) {
-            self.kategoriEkrani?.reloadData()
-            return
-        }   
     }
     
     func gorseliKaydet(dosya_path: String, yol: String){
