@@ -18,40 +18,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var haberler: HaberTableViewController?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
-        
         let realm = RLMRealm.defaultRealm()
         println(RLMRealm.defaultRealm().path)
-
         navigasyonKontrolcusu = ENSideMenuNavigationController(menuTableViewController: menuTableViewKontrolcusu, contentViewController:nil)
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let anaStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         if Kategori.objectsWhere("secili = true").count > 0{
-            var acilis_ekrani = mainStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
+            var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
 
             loadBaseData(uiv: nil)
         }
         else{
-            var acilis_ekrani = mainStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
-            
+            var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
             loadBaseData(uiv: acilis_ekrani)
         }
         
-        
-        
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
         self.window!.rootViewController = navigasyonKontrolcusu
-        
         self.window!.backgroundColor = UIColor.whiteColor()
-        
-        
         self.window!.makeKeyAndVisible()
-        
-        
         haberleriGuncelle()
-        
         return true
     }
     

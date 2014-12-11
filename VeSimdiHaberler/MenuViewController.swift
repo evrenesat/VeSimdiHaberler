@@ -116,13 +116,13 @@ class MenuTableViewKontrolcusu: UITableViewController {
         //        }
         selectedMenuItem = indexPath.row
         let cell = tableView.cellForRowAtIndexPath(indexPath),
-            mainStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
+            anaStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
         if indexPath.row == menuSatirSayisi - 1{
-            let kategoriSecimEkrani = mainStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
+            let kategoriSecimEkrani = anaStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
             sideMenuController()?.setContentViewController(kategoriSecimEkrani)
         }else{
             
-            let haberListViewController = mainStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
+            let haberListViewController = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
             haberListViewController.secili_kategori = cell!.textLabel!.text!
             sideMenuController()?.setContentViewController(haberListViewController)
         }

@@ -10,7 +10,7 @@ import Foundation
 import Realm
 import UIKit
 
-class RSSProcessor: NSObject, NSXMLParserDelegate {
+class RSSIsleyici: NSObject, NSXMLParserDelegate {
     
     let parser = NSXMLParser(),
         realm = RLMRealm.defaultRealm()
@@ -45,12 +45,15 @@ class RSSProcessor: NSObject, NSXMLParserDelegate {
             fdescription = ""
         }
         if elementName.hasPrefix("media:") && image == ""{
-            image = getFirstImageUrl(attributeDict.description)
+            image = ilkBuldugunGorseliAl(attributeDict.description)
         }
     }
     
-    func getFirstImageUrl(html: String) -> String{
-        // rss
+    func ilkBuldugunGorseliAl(html: String) -> String{
+        // Bu metod verilen metin içerisinde sonu jpg yada png ile biten ilk URLyi geri döndürür.
+        // Bazı haber kaynakları haber görsellerini media etiketi altına koymak yerine
+        // description alanının içine koymayı tercih(!) ediyorlar
+        // haberimizin bir görseli olsun diye elimizden geleni yapıyoruz.
         var result = ""
         let ld = NSDataDetector(types:NSTextCheckingType.Link.rawValue, error: nil)
         var matches = ld?.matchesInString(html, options: nil, range: NSMakeRange(0, countElements(html))) ?? []
@@ -69,7 +72,7 @@ class RSSProcessor: NSObject, NSXMLParserDelegate {
         if elementName == "item" && haberimiz_yok {
             var haber = Haber()
             haber.url = link
-            haber.gorselurl =  image != "" ? image : getFirstImageUrl(fdescription)
+            haber.gorselurl =  image != "" ? image : ilkBuldugunGorseliAl(fdescription)
             haber.baslik = ftitle.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             haber.kaynak = kaynak
             haber.ozet = fdescription.stringByReplacingOccurrencesOfString("<[^>]+>", withString: "", options: .RegularExpressionSearch, range: nil)
@@ -113,7 +116,7 @@ class haberleriGuncelle {
                 var kaynak_url = seciliKategoridekiKaynaklar[k].url
                 
                 dispatch_async(xmlCozumleyiciKuyrugu){
-                    RSSProcessor(kurl: kaynak_url)
+                    RSSIsleyici(kurl: kaynak_url)
                     return
                 }
             }
@@ -129,7 +132,7 @@ class kategoriGuncelle {
         for k in 0..<kategori.kaynaklar.count{
             var url = kategori.kaynaklar[k].url
             dispatch_async(xmlCozumleyiciKuyrugu){
-                RSSProcessor(kurl: url)
+                RSSIsleyici(kurl: url)
                 return
             }
         }
