@@ -30,7 +30,7 @@ class KategoriViewController: UIViewController, UICollectionViewDelegateFlowLayo
         
         collectionView!.dataSource = self
         collectionView!.delegate = self
-
+        self.title = "Ve Şimdi Haberler"
         reloadData()
 
     }

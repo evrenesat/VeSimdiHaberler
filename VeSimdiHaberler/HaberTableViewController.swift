@@ -156,6 +156,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
                     let url = NSURL(string: haber.gorselurl)!
                     NSURLSession.sharedSession().downloadTaskWithURL(url, {
                         (yol, response, error) in
+                        if yol != nil{
                         if (self.dosyaYoneticisi.copyItemAtPath(yol.path!, toPath:dosya_path, error:nil)) {
                             println("Dosya basariyla kaydedildi")
                             let rlm = RLMRealm.defaultRealm()
@@ -170,7 +171,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
                         }else {
                             println("Dosya kaydedilemedi!")
                         }
-                        
+                        }
                         
                     }).resume()
                 }
@@ -198,7 +199,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if segue.identifier == "haber_goster" && segue.identifier == "haber_goster2"{
+        if segue.identifier == "haber_goster" || segue.identifier == "haber_goster2"{
             if let path = tableView.indexPathForSelectedRow(){
                 let viewController = segue.destinationViewController as PostViewController
                 //                let haber  =

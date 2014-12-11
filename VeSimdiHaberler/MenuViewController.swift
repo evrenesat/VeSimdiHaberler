@@ -9,7 +9,7 @@
 import UIKit
 import Realm
 
-class NewsMenuTableViewController: UITableViewController {
+class MenuTableViewKontrolcusu: UITableViewController {
     var selectedMenuItem : Int = 0
     let realm = RLMRealm.defaultRealm()
     var tag = 500

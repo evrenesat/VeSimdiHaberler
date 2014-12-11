@@ -13,43 +13,28 @@ import Realm
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    //var newsNavigationController: ENSideMenuNavigationController?
-    var newsNavigationController: ENSideMenuNavigationController!
-    var menuTableViewCont: NewsMenuTableViewController?
+    var navigasyonKontrolcusu: ENSideMenuNavigationController!
+    var menuTableViewKontrolcusu = MenuTableViewKontrolcusu()
     var haberler: HaberTableViewController?
-    //var acilis_ekrani: UIViewController!
-    
-    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
-        menuTableViewCont = NewsMenuTableViewController()
-        //
+
         
         let realm = RLMRealm.defaultRealm()
         println(RLMRealm.defaultRealm().path)
-        
-        
-        //
-//        realm.transactionWithBlock() {realm.deleteAllObjects()}
-        //
-        
-        newsNavigationController = ENSideMenuNavigationController(menuTableViewController: menuTableViewCont!, contentViewController:nil)
-        //        var testViewController: UIViewController = UIViewController()
-        
+
+        navigasyonKontrolcusu = ENSideMenuNavigationController(menuTableViewController: menuTableViewKontrolcusu, contentViewController:nil)
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        //        mainStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi")
-        
         if Kategori.objectsWhere("secili = true").count > 0{
             var acilis_ekrani = mainStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
-            self.newsNavigationController!.pushViewController(acilis_ekrani, animated: false)
-            //            acilis_ekrani.tableView.reloadData()
+            self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
+
             loadBaseData(uiv: nil)
         }
         else{
             var acilis_ekrani = mainStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
             
-            self.newsNavigationController!.pushViewController(acilis_ekrani, animated: false)
+            self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
             loadBaseData(uiv: acilis_ekrani)
         }
         
@@ -57,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
-        self.window!.rootViewController = newsNavigationController
+        self.window!.rootViewController = navigasyonKontrolcusu
         
         self.window!.backgroundColor = UIColor.whiteColor()
         

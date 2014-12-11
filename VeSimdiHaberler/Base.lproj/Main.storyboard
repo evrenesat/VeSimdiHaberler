@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ot2-BO-JvA">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--News App-->
+        <!--Ve Şimdi Haberler-->
         <scene sceneID="Yja-tN-Hgl">
             <objects>
-                <viewController storyboardIdentifier="kategori_secimi" id="Ot2-BO-JvA" customClass="KategoriViewController" customModule="VeSimdiHaberler" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="kategori_secimi" title="Ve Şimdi Haberler" id="Ot2-BO-JvA" customClass="KategoriViewController" customModule="VeSimdiHaberler" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cgE-fe-dqA"/>
                         <viewControllerLayoutGuide type="bottom" id="ewi-sK-kPn"/>
@@ -17,8 +17,14 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merhaba! Haber kategorilerinden ilginizi çekenleri seçiniz;" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPx-VH-Npr">
+                                <rect key="frame" x="0.0" y="-10" width="600" height="99"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="textColor" red="0.1964011817384895" green="0.5033341224747474" blue="0.43156937791797173" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="21U-E9-I2T">
-                                <rect key="frame" x="8" y="85" width="584" height="461"/>
+                                <rect key="frame" x="8" y="75" width="584" height="461"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xVC-aE-Oka">
@@ -38,11 +44,14 @@
                                                 <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TvC-5e-KiA">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ok" translatesAutoresizingMaskIntoConstraints="NO" id="Ixb-El-4bV">
+                                                <imageView hidden="YES" userInteractionEnabled="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ok" translatesAutoresizingMaskIntoConstraints="NO" id="Ixb-El-4bV">
                                                     <rect key="frame" x="30" y="24" width="40" height="40"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="300" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="300" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gF7-qQ-r7Z">
                                                     <rect key="frame" x="0.0" y="100" width="100" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="kpO-XF-jaX"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" red="0.51852509469696972" green="0.51852509469696972" blue="0.51852509469696972" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -53,37 +62,30 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="gF7-qQ-r7Z" firstAttribute="top" secondItem="TvC-5e-KiA" secondAttribute="bottom" id="0Gx-VE-t43"/>
-                                            <constraint firstItem="TvC-5e-KiA" firstAttribute="top" secondItem="yag-xs-I5M" secondAttribute="top" id="816-21-CAz"/>
-                                            <constraint firstAttribute="bottom" secondItem="gF7-qQ-r7Z" secondAttribute="bottom" id="GSU-SI-KCa"/>
-                                            <constraint firstItem="gF7-qQ-r7Z" firstAttribute="leading" secondItem="TvC-5e-KiA" secondAttribute="leading" id="Oq6-Hp-dtV"/>
-                                            <constraint firstItem="gF7-qQ-r7Z" firstAttribute="trailing" secondItem="TvC-5e-KiA" secondAttribute="trailing" id="b3v-7y-tD9"/>
-                                            <constraint firstAttribute="bottom" secondItem="TvC-5e-KiA" secondAttribute="bottom" constant="21" id="qQP-jQ-F4z"/>
-                                            <constraint firstAttribute="trailing" secondItem="TvC-5e-KiA" secondAttribute="trailing" id="tN7-w6-qEI"/>
-                                            <constraint firstItem="TvC-5e-KiA" firstAttribute="leading" secondItem="yag-xs-I5M" secondAttribute="leading" id="tXG-qU-KID"/>
+                                            <constraint firstItem="gF7-qQ-r7Z" firstAttribute="leading" secondItem="yag-xs-I5M" secondAttribute="leading" id="1G3-35-c6q"/>
+                                            <constraint firstItem="TvC-5e-KiA" firstAttribute="leading" secondItem="gF7-qQ-r7Z" secondAttribute="leading" id="5vv-7d-gfO"/>
+                                            <constraint firstAttribute="trailing" secondItem="TvC-5e-KiA" secondAttribute="trailing" id="GfI-mz-HrY"/>
+                                            <constraint firstItem="Ixb-El-4bV" firstAttribute="top" secondItem="yag-xs-I5M" secondAttribute="topMargin" constant="16" id="IkN-hy-RaX"/>
+                                            <constraint firstItem="TvC-5e-KiA" firstAttribute="trailing" secondItem="gF7-qQ-r7Z" secondAttribute="trailing" id="aeq-sT-3y0"/>
+                                            <constraint firstItem="Ixb-El-4bV" firstAttribute="leading" secondItem="yag-xs-I5M" secondAttribute="leadingMargin" constant="22" id="hTc-8c-ngo"/>
+                                            <constraint firstItem="TvC-5e-KiA" firstAttribute="top" secondItem="yag-xs-I5M" secondAttribute="top" id="pUo-9Z-vkc"/>
+                                            <constraint firstItem="gF7-qQ-r7Z" firstAttribute="top" secondItem="TvC-5e-KiA" secondAttribute="bottom" id="v1b-mw-PHJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="gF7-qQ-r7Z" secondAttribute="bottom" id="vuk-vP-3kQ"/>
                                         </constraints>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haber kategorilerinden ilginizi çekenleri seçiniz:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPx-VH-Npr">
-                                <rect key="frame" x="16" y="39" width="549" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="yiD-Cf-9pB"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wPx-VH-Npr" firstAttribute="top" secondItem="cgE-fe-dqA" secondAttribute="bottom" constant="19" id="8WV-SX-nj4"/>
-                            <constraint firstItem="21U-E9-I2T" firstAttribute="top" secondItem="wPx-VH-Npr" secondAttribute="bottom" constant="25" id="D1z-yD-IAi"/>
-                            <constraint firstItem="21U-E9-I2T" firstAttribute="leading" secondItem="dJ2-vr-8GE" secondAttribute="leadingMargin" constant="-8" id="NjI-O8-ZVr"/>
-                            <constraint firstItem="wPx-VH-Npr" firstAttribute="leading" secondItem="dJ2-vr-8GE" secondAttribute="leadingMargin" id="P12-Pb-agA"/>
-                            <constraint firstItem="ewi-sK-kPn" firstAttribute="top" secondItem="21U-E9-I2T" secondAttribute="bottom" constant="10" id="anp-Cd-RGe"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wPx-VH-Npr" secondAttribute="trailing" constant="19" id="ddh-1D-OEh"/>
-                            <constraint firstItem="21U-E9-I2T" firstAttribute="centerX" secondItem="dJ2-vr-8GE" secondAttribute="centerX" id="sQu-P5-JMa"/>
+                            <constraint firstItem="21U-E9-I2T" firstAttribute="centerX" secondItem="wPx-VH-Npr" secondAttribute="centerX" id="L75-Ls-XDe"/>
+                            <constraint firstItem="21U-E9-I2T" firstAttribute="top" secondItem="cgE-fe-dqA" secondAttribute="bottom" constant="55" id="WrZ-G3-pUt"/>
+                            <constraint firstItem="ewi-sK-kPn" firstAttribute="top" secondItem="21U-E9-I2T" secondAttribute="bottom" constant="20" id="Z5A-AG-pU7"/>
+                            <constraint firstItem="21U-E9-I2T" firstAttribute="leading" secondItem="dJ2-vr-8GE" secondAttribute="leadingMargin" constant="-8" id="ad8-ia-6wW"/>
+                            <constraint firstItem="21U-E9-I2T" firstAttribute="centerX" secondItem="dJ2-vr-8GE" secondAttribute="centerX" id="ccd-zO-bgQ"/>
+                            <constraint firstItem="ewi-sK-kPn" firstAttribute="top" secondItem="wPx-VH-Npr" secondAttribute="bottom" constant="467" id="dwk-ga-vNy"/>
+                            <constraint firstItem="wPx-VH-Npr" firstAttribute="leading" secondItem="dJ2-vr-8GE" secondAttribute="leading" id="ik0-2w-RBL"/>
+                            <constraint firstItem="wPx-VH-Npr" firstAttribute="top" secondItem="dJ2-vr-8GE" secondAttribute="topMargin" constant="-10" id="q4S-uK-q4S"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -223,6 +225,6 @@
         <image name="ok" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ofc-2G-jfE"/>
+        <segue reference="uNl-Rd-e06"/>
     </inferredMetricsTieBreakers>
 </document>
