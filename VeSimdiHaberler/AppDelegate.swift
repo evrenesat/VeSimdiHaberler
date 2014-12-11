@@ -26,12 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
 
-            loadBaseData(uiv: nil)
+            HaberKaynaklariniGuncelle(kategoriEkrani: nil)
         }
         else{
             var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
-            loadBaseData(uiv: acilis_ekrani)
+            HaberKaynaklariniGuncelle(kategoriEkrani: acilis_ekrani)
         }
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)

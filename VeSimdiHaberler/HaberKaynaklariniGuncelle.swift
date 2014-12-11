@@ -1,6 +1,6 @@
 //
-//  LoadBase.swift
-//  rss4
+//  HaberKaynaklariniGuncelle.swift
+//  VeSimdiHaberler
 //
 //  Created by Evren Esat Ozkan on 21/11/14.
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
@@ -10,24 +10,28 @@ import Foundation
 import Realm
 import UIKit
 
-class loadBaseData{
+let UYGULAMA_SUNUCUSU = "http://localhost:8000/"
+
+class HaberKaynaklariniGuncelle{
 
     var kategoriEkrani:KategoriViewController?
-    let host = "http://localhost:8000/",
-        dosyaYoneticisi = NSFileManager.defaultManager(),
+    let dosyaYoneticisi = NSFileManager.defaultManager(),
         dokumanlarDiziniYolu = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
     
     
-    init(uiv: KategoriViewController?){
-        self.kategoriEkrani = uiv
-
-        NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: "\(host)kaynaklar.json")!, veriIsle).resume()
+    init(kategoriEkrani: KategoriViewController?){
+        self.kategoriEkrani = kategoriEkrani
+        let url = NSURL(string: "\(UYGULAMA_SUNUCUSU)kaynaklar.json")!
+        NSURLSession.sharedSession().dataTaskWithURL(url, veriIsle).resume()
     }
     
     
     func veriIsle(kaynak: NSData!, response: NSURLResponse!, error: NSError!){
+        
         // json verisini satır satır işleyerek kategori ve haber kaynaklarını
-        // veritabanına kayediyor ve kategori görsellerini indiriyoruz.
+        // veritabanına kayediyor ve ardindan kategori görsellerini indiriyoruz.
+        // son olarak kategori ekranini yeniliyoruz
+        
         let realm = RLMRealm.defaultRealm()
         if let jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(kaynak,
             options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSDictionary{
@@ -52,9 +56,14 @@ class loadBaseData{
     }
     
     func gorseliKaydet(dosya_path: String, yol: String){
+        
         // gecici dizine indirdigimiz gorseli uygulamamizin Document dizinine kopyaliyoruz.
+        // her bir gorselin basariyla kopyalanmasindan sonra kategori ekranini yeniliyoruz
+        
         if (dosyaYoneticisi.copyItemAtPath(yol, toPath:dosya_path, error:nil)) {
+            
             println("Dosya basariyla kaydedildi")
+            
             dispatch_async(dispatch_get_main_queue()) {
                 self.kategoriEkrani?.reloadData()
                 return
@@ -67,10 +76,12 @@ class loadBaseData{
     }
     
     func gorseliIndir(image_name: String){
+        
         // gorsel Document dizinimizde zaten mevcut degilse, sunucudan indiriyoruz.
+        
         var dosya_path = dokumanlarDiziniYolu.stringByAppendingPathComponent(image_name)
         if(!dosyaYoneticisi.fileExistsAtPath(dosya_path)) {
-            let url = NSURL(string: "\(host)images/\(image_name)")!
+            let url = NSURL(string: "\(UYGULAMA_SUNUCUSU)images/\(image_name)")!
             NSURLSession.sharedSession().downloadTaskWithURL(url, {
                 (yol, response, error) in
                 self.gorseliKaydet(dosya_path, yol: yol.path!)
