@@ -27,10 +27,14 @@ class HaberKaynaklariniGuncelle{
     
     
     func veriIsle(kaynak: NSData!, response: NSURLResponse!, error: NSError!){
+        /*
+            json verisini satır satır işleyerek kategori ve haber kaynaklarını
+            veritabanına kayediyor ve ardindan kategori görsellerini indiriyoruz.
+            son olarak kategori ekranini yeniliyoruz
         
-        // json verisini satır satır işleyerek kategori ve haber kaynaklarını
-        // veritabanına kayediyor ve ardindan kategori görsellerini indiriyoruz.
-        // son olarak kategori ekranini yeniliyoruz
+            Kategori nesnemizi, Realm'in createOrUpdateInDefaultRealmWithObject metoduna JSON sözlüğünü vererek oluşturuyoruz.
+           */
+        
         
         let realm = RLMRealm.defaultRealm()
         if let jsonResult: NSDictionary = NSJSONSerialization.JSONObjectWithData(kaynak,
