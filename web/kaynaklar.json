@@ -47,7 +47,7 @@
             "id": "3",
             "isim": "Doğa",
                     "secili": false,
-            "gorsel": "tekno.png",
+            "gorsel": "doga.png",
             "kaynak": [
                 {
                     "id": "3.1",
@@ -60,7 +60,30 @@
                     "url": "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml"
                 }
             ]
-        }		
+		},
+        {
+            "id": "4",
+            "isim": "Spor",
+                    "secili": false,
+            "gorsel": "spor.png",
+            "kaynak": [
+                {
+                    "id": "4.1",
+                    "isim": "Foto Maç",
+                    "url": "http://www.fotomac.com.tr/rss/Anasayfa.xml"
+                },
+                {
+                    "id": "4.2",
+                    "isim": "Mynet Spor",
+                    "url": "http://spor.mynet.com/rss/"
+				},
+                {
+                    "id": "4.3",
+                    "isim": "SporX",
+                    "url": "http://www.sporx.com/_xml/rss.php"
+				}
+            ]
+        }				
 		
 		
 		
