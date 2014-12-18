@@ -12,16 +12,19 @@ import Realm
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var window: UIWindow?
+    var window: UIWindow!
     var navigasyonKontrolcusu: ENSideMenuNavigationController!
     var menuTableViewKontrolcusu = MenuTableViewKontrolcusu()
-    var haberler: HaberTableViewController?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let realm = RLMRealm.defaultRealm()
+        
+        // olusturulan realm veritabanının yolunu konsola yazdırıyoruz
         println(RLMRealm.defaultRealm().path)
+        
         navigasyonKontrolcusu = ENSideMenuNavigationController(menuTableViewController: menuTableViewKontrolcusu, contentViewController:nil)
         let anaStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
         if Kategori.objectsWhere("secili = true").count > 0{
             var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
@@ -35,10 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window!.rootViewController = navigasyonKontrolcusu
-        self.window!.backgroundColor = UIColor.whiteColor()
-        self.window!.makeKeyAndVisible()
+        self.window.rootViewController = navigasyonKontrolcusu
+        self.window.backgroundColor = UIColor.whiteColor()
+        self.window.makeKeyAndVisible()
+        
         haberleriGuncelle()
+        
         return true
     }
     

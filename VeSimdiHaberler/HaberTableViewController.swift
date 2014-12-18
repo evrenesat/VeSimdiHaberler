@@ -26,7 +26,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         aramaKutusu.delegate = self
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"menu"), style: .Plain, target: self.navigationController, action: "toggleMenu")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"menu"), style: .Plain, target: self.navigationController?.sideMenuController()?.sideMenu, action: "toggleMenu")
         switch secili_kategori{
         case "":
             haberOzetleriniHazirla()
@@ -104,9 +104,10 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
             bolumdekiHaberSayisi[kid] = 0
             for kaynakID in 0 ..< kategori.kaynaklar.count {
                 var kaynak = kategori.kaynaklar[kaynakID]
-                for hid in 0 ..< Int(kaynak.haberler.count > 4 ? 4 : kaynak.haberler.count){
+                let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
+                for hid in 0 ..< Int(haberler.count > 4 ? 4 : haberler.count){
                     bolumdekiHaberSayisi[kid]! += 1
-                    gosterilecekHaberler["\(kid).\(bolumdekiHaberSayisi[kid]! - 1)"] = kaynak.haberler[hid]
+                    gosterilecekHaberler["\(kid).\(bolumdekiHaberSayisi[kid]! - 1)"] = haberler.objectAtIndex(UInt(hid)) as? Haber
                 }
             }
         }
@@ -189,11 +190,11 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
         for kid in 0 ..< bolumSayisi {
             var kaynak = kategori.kaynaklar[kid]
             bolumBasliklari.append(kaynak.isim)
-            var haberler  = kaynak.haberler
-            var filtrelenmisHaberler: RLMResults!
-            bolumdekiHaberSayisi[kid] = kaynak.haberler.count > 10 ? 10 : kaynak.haberler.count
+            let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
+            bolumdekiHaberSayisi[kid] = Int(haberler.count > 10 ? 10 : haberler.count)
+            
             for hid in 0 ..< bolumdekiHaberSayisi[kid]!{
-                gosterilecekHaberler["\(kid).\(hid)"] =  haberler[hid]
+                gosterilecekHaberler["\(kid).\(hid)"] =  haberler.objectAtIndex(UInt(hid)) as? Haber
             }
         }
     }

@@ -1,6 +1,6 @@
 //
 //  HaberKaynaklariniGuncelle.swift
-//  VeSimdiHaberler
+//  Ve Şimdi Haberler
 //
 //  Created by Evren Esat Ozkan on 21/11/14.
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
@@ -10,7 +10,9 @@ import Foundation
 import Realm
 import UIKit
 
+//let UYGULAMA_SUNUCUSU = "http://mobil-iz.org/swift-data/api/"
 let UYGULAMA_SUNUCUSU = "http://localhost:8000/"
+let HABER_ONBELLEK_SURESI = 2 // gun
 
 class HaberKaynaklariniGuncelle{
 
@@ -20,9 +22,20 @@ class HaberKaynaklariniGuncelle{
     
     
     init(kategoriEkrani: KategoriViewController?){
+        eskiHaberleriSil()
         self.kategoriEkrani = kategoriEkrani
         let url = NSURL(string: "\(UYGULAMA_SUNUCUSU)kaynaklar.json")!
         NSURLSession.sharedSession().dataTaskWithURL(url, veriIsle).resume()
+
+    }
+    
+    func eskiHaberleriSil(){
+        let realm = RLMRealm.defaultRealm(),
+            tarih = NSDate(timeIntervalSinceNow: -Double(60 * 60 * 24 * HABER_ONBELLEK_SURESI))
+        let eskiHaberler = Haber.objectsWhere("tarih < %@ and favori=false", tarih)
+        realm.transactionWithBlock() {
+            realm.deleteObjects(eskiHaberler)
+        }
     }
     
     
@@ -85,6 +98,7 @@ class HaberKaynaklariniGuncelle{
         
         var dosya_path = dokumanlarDiziniYolu.stringByAppendingPathComponent(image_name)
         if(!dosyaYoneticisi.fileExistsAtPath(dosya_path)) {
+            
             let url = NSURL(string: "\(UYGULAMA_SUNUCUSU)images/\(image_name)")!
             NSURLSession.sharedSession().downloadTaskWithURL(url, {
                 (yol, response, error) in

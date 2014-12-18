@@ -19,8 +19,8 @@ class KategoriViewController: UIViewController, UICollectionViewDelegateFlowLayo
 
     let realm = RLMRealm.defaultRealm(),
         cellId = "CollectionViewCell",
-        documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
-    var kategori_set: RLMResults!
+        belgelerDizini = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+    var kategoriler: RLMResults!
 
     @IBOutlet var collectionView: UICollectionView!
 
@@ -38,8 +38,8 @@ class KategoriViewController: UIViewController, UICollectionViewDelegateFlowLayo
     func secimVarsaMenuDugmeleriniGoster(){
         self.navigationItem.hidesBackButton = true
         if Kategori.objectsWhere("secili = true").count > 0{
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"menu"), style: .Plain, target: self.navigationController, action: "toggleMenu")
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Tamam", style: .Plain, target: self.navigationController, action: "toggleMenu")
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"menu"), style: .Plain, target: self.navigationController?.sideMenuController()?.sideMenu, action: "toggleMenu")
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Tamam", style: .Plain, target: self.navigationController?.sideMenuController()?.sideMenu, action: "toggleMenu")
         }else{
             
             self.navigationItem.leftBarButtonItem = nil
@@ -51,7 +51,7 @@ class KategoriViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }
    
     func reloadData(){
-        self.kategori_set = Kategori.allObjects()
+        self.kategoriler = Kategori.allObjects()
         self.collectionView.reloadData()
 
 
@@ -62,39 +62,40 @@ class KategoriViewController: UIViewController, UICollectionViewDelegateFlowLayo
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Int(kategori_set.count)
+        return Int(kategoriler.count)
     }
      func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!)
     {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)! as UICollectionViewCell,
-            okImage = cell.contentView.viewWithTag(200) as UIImageView,
-            kategori = kategori_set.objectAtIndex(UInt(indexPath.row)) as Kategori
+        let hucre = collectionView.cellForItemAtIndexPath(indexPath)! as UICollectionViewCell,
+            tamamSimgesi = hucre.contentView.viewWithTag(200) as UIImageView,
+            secilenKategori = kategoriler.objectAtIndex(UInt(indexPath.row)) as Kategori
         
         realm.transactionWithBlock() {
-            kategori.secili = (kategori.secili == true) ? false : true
+            secilenKategori.secili = (secilenKategori.secili == true) ? false : true
             
         }
-        if kategori.secili && kategori.kaynaklar[0].haberler.count == 0{
-            kategoriGuncelle(kategori: kategori)
+        if secilenKategori.secili && secilenKategori.kaynaklar[0].haberler.count == 0{
+            kategoriGuncelle(kategori: secilenKategori)
         }
-        okImage.hidden = !okImage.hidden
+        tamamSimgesi.hidden = !tamamSimgesi.hidden
         
         secimVarsaMenuDugmeleriniGoster()
+        self.navigationController?.sideMenuController()?.sideMenu?.menuTableViewController?.tableView.reloadData()
         
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as UICollectionViewCell,
-            okImage = cell.contentView.viewWithTag(200) as UIImageView,
-            kategori = kategori_set.objectAtIndex(UInt(indexPath.row)) as Kategori,
-            label = cell.contentView.viewWithTag(300) as UILabel,
-            imageView = cell.contentView.viewWithTag(100) as UIImageView
-        label.text = kategori.isim
+        let hucre = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as UICollectionViewCell,
+            tamamSimgesi = hucre.contentView.viewWithTag(200) as UIImageView,
+            kategori = kategoriler.objectAtIndex(UInt(indexPath.row)) as Kategori,
+            kategoriEtiketi = hucre.contentView.viewWithTag(300) as UILabel,
+            kategoriGorseli = hucre.contentView.viewWithTag(100) as UIImageView
+        kategoriEtiketi.text = kategori.isim
         
 
-        okImage.hidden = !kategori.secili
-        imageView.image = UIImage(contentsOfFile:"\(documentsPath)/\(kategori.gorsel)")
-        return cell
+        tamamSimgesi.hidden = !kategori.secili
+        kategoriGorseli.image = UIImage(contentsOfFile:"\(belgelerDizini)/\(kategori.gorsel)")
+        return hucre
     }
 
 

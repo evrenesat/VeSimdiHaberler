@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
 /*
  
-Bu dosya uygulamamızda kullanacağımız veritabanı modellerimizi oluşturuyoruz.
+Bu dosyada kullanacağımız veritabanı modellerini oluşturuyoruz.
 Bunun için Apple'ın Core Data'sı yerine http://realm.io adresinden ücretsiz  olarak edinilebilecek Realm kütüphanesini kullanıyoruz.
 Realm ile veritabanı işlemleri yapmak Core Data'dan daha hızlı ve kolay. Üstelik Android desteği
 sayesinde aynı API ve veritabanı dosyasını uygulamamızın Andorid sürümünü hazırlarken de kullanabiliyoruz.
