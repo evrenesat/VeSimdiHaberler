@@ -182,6 +182,8 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
             if let path = tableView.indexPathForSelectedRow(){
                 let viewController = segue.destinationViewController as WebViewController
                 viewController.haber = gosterilecekHaberler["\(path.section).\(path.row)"]
+//                navigationController?.setViewControllers([viewController], animated: true)
+                
             }
         }
     }

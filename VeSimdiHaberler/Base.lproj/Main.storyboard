@@ -130,7 +130,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Hucre" textLabel="mKU-8p-Srd" detailTextLabel="Hl4-FK-1hl" style="IBUITableViewCellStyleSubtitle" id="SiD-u4-TUx">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Hucre" textLabel="mKU-8p-Srd" detailTextLabel="Hl4-FK-1hl" style="IBUITableViewCellStyleSubtitle" id="SiD-u4-TUx">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SiD-u4-TUx" id="3Q5-IX-oxJ">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -153,7 +153,7 @@
                                     <segue destination="cUT-P8-jRQ" kind="show" identifier="haber_goster2" id="ofc-2G-jfE"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="gorselliHucre" textLabel="Yfh-AR-dt0" detailTextLabel="Ff9-bZ-xLH" style="IBUITableViewCellStyleSubtitle" id="ouJ-Pv-BjF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="gorselliHucre" textLabel="Yfh-AR-dt0" detailTextLabel="Ff9-bZ-xLH" style="IBUITableViewCellStyleSubtitle" id="ouJ-Pv-BjF">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ouJ-Pv-BjF" id="aLA-X6-xJq">
@@ -191,6 +191,22 @@
             </objects>
             <point key="canvasLocation" x="1983" y="151"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="aQl-Cx-exW">
+            <objects>
+                <navigationController storyboardIdentifier="fooo" id="Pnr-iX-WA0" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Cn-j1-2q2">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Olg-m3-WB9" kind="show" identifier="fooo" id="9gE-vc-jo0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eEX-zV-qWL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1622" y="874"/>
+        </scene>
         <!--Web View Controller-->
         <scene sceneID="tYP-WW-aQk">
             <objects>
@@ -203,23 +219,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleAspectFit" scalesPageToFit="YES" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="weY-Np-HYy">
-                                <rect key="frame" x="0.0" y="-5" width="600" height="605"/>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="weY-Np-HYy">
+                                <rect key="frame" x="-5" y="-5" width="600" height="605"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </webView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VCL-CV-x5i">
-                                <rect key="frame" x="290" y="288" width="20" height="20"/>
+                                <rect key="frame" x="290" y="332" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="weY-Np-HYy" firstAttribute="leading" secondItem="9iR-2c-u1h" secondAttribute="leading" id="PhJ-aj-7ih"/>
-                            <constraint firstItem="weY-Np-HYy" firstAttribute="bottom" secondItem="k1J-8B-zRd" secondAttribute="top" id="Td1-pe-nfD"/>
-                            <constraint firstItem="VCL-CV-x5i" firstAttribute="centerX" secondItem="9iR-2c-u1h" secondAttribute="centerX" id="Vhu-pD-mMa"/>
-                            <constraint firstItem="weY-Np-HYy" firstAttribute="centerX" secondItem="VCL-CV-x5i" secondAttribute="centerX" id="dfh-fd-Iee"/>
-                            <constraint firstItem="weY-Np-HYy" firstAttribute="top" secondItem="9iR-2c-u1h" secondAttribute="topMargin" constant="-5" id="qoK-4z-tnK"/>
-                            <constraint firstItem="VCL-CV-x5i" firstAttribute="top" secondItem="ZlR-Jv-LqF" secondAttribute="bottom" constant="268" id="rlw-9g-kJi"/>
+                            <constraint firstItem="k1J-8B-zRd" firstAttribute="top" secondItem="VCL-CV-x5i" secondAttribute="bottom" constant="248" id="6oM-qb-6ud"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="weY-Np-HYy" secondAttribute="trailing" constant="-11" id="7Vp-pN-51c"/>
+                            <constraint firstItem="VCL-CV-x5i" firstAttribute="centerX" secondItem="9iR-2c-u1h" secondAttribute="centerX" id="LG7-Tq-rFw"/>
+                            <constraint firstItem="weY-Np-HYy" firstAttribute="leading" secondItem="9iR-2c-u1h" secondAttribute="leadingMargin" constant="-21" id="LiY-AZ-kDH"/>
+                            <constraint firstItem="weY-Np-HYy" firstAttribute="top" secondItem="9iR-2c-u1h" secondAttribute="topMargin" constant="-5" id="Qqx-Yb-4Kg"/>
+                            <constraint firstItem="weY-Np-HYy" firstAttribute="bottom" secondItem="k1J-8B-zRd" secondAttribute="top" id="aZJ-wr-lWO"/>
                         </constraints>
                     </view>
                     <connections>

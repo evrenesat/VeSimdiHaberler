@@ -21,8 +21,13 @@ class MenuTableViewKontrolcusu: UITableViewController {
         // menüyü oluşturan tableview'ın görünüşünü özelleştiriyoruz.
         tableView.contentInset = UIEdgeInsetsMake(64.0, 0, 0, 0)
         tableView.separatorStyle = .None
-        tableView.backgroundColor = UIColor.clearColor()
+        
         tableView.scrollsToTop = false
+        var version:NSString = UIDevice.currentDevice().systemVersion as NSString;
+        if  version.doubleValue >= 8 {
+            tableView.backgroundColor = UIColor.clearColor()
+        }
+        
 
     }
     

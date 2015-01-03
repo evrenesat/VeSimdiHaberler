@@ -82,7 +82,7 @@ public class ENSideMenu : NSObject {
     private let menuPosition:ENSideMenuPosition = .Left
     public var bouncingEnabled :Bool = true
     private let sideMenuContainerView =  UIView()
-    var menuTableViewController : UITableViewController!
+    public var menuTableViewController : UITableViewController!
     private var animator : UIDynamicAnimator!
     private let sourceView : UIView!
     private var needUpdateApperance : Bool = false

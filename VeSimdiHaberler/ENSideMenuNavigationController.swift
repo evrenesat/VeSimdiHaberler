@@ -8,16 +8,15 @@
 
 import UIKit
 
-class ENSideMenuNavigationController: UINavigationController, ENSideMenuDelegate, ENSideMenuProtocol {
+class ENSideMenuNavigationController: UINavigationController, ENSideMenuProtocol {
     
-    var sideMenu : ENSideMenu?
+    internal var sideMenu : ENSideMenu?
     internal var sideMenuAnimationType : ENSideMenuAnimation = .Default
     
     
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        sideMenu?.delegate = self
     }
     
     init( menuTableViewController: UITableViewController, contentViewController: UIViewController?) {
@@ -26,12 +25,11 @@ class ENSideMenuNavigationController: UINavigationController, ENSideMenuDelegate
         if (contentViewController != nil) {
             self.viewControllers = [contentViewController!]
         }
-
-        sideMenu = ENSideMenu(sourceView: self.view, menuTableViewController: menuTableViewController, menuPosition:.Left)
         
+        sideMenu = ENSideMenu(sourceView: self.view, menuTableViewController: menuTableViewController, menuPosition:.Left)
         view.bringSubviewToFront(navigationBar)
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -41,26 +39,7 @@ class ENSideMenuNavigationController: UINavigationController, ENSideMenuDelegate
         // Dispose of any resources that can be recreated.
     }
     
-//    func toggleMenu(){
-//        self.sideMenu?.toggleMenu()
-//    }
-    
     // MARK: - Navigation
-//    func setContentViewController(contentViewController: UIViewController) {
-//        self.sideMenu?.toggleMenu()
-//        switch sideMenuAnimationType {
-//        case .None:
-//            self.viewControllers = [contentViewController]
-//            break
-//        default:
-//            let menuIcon = UIImage(named: "menu")
-//            let menuButton = UIBarButtonItem(image: menuIcon, style: .Plain, target: self, action: "toggleMenu")
-//            contentViewController.navigationItem.leftBarButtonItem = menuButton
-//            self.pushViewController(contentViewController, animated: true)
-//            break
-//        }
-//        
-//    }
     func setContentViewController(contentViewController: UIViewController) {
         self.sideMenu?.toggleMenu()
         switch sideMenuAnimationType {
@@ -74,4 +53,5 @@ class ENSideMenuNavigationController: UINavigationController, ENSideMenuDelegate
         }
         
     }
+    
 }
