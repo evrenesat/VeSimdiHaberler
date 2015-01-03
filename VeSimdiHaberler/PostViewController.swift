@@ -1,6 +1,6 @@
 //
-//  PostViewController.swift
-//  VeSimdiHaberler
+//  WebViewController.swift
+//  Ve Simdi Haberler
 //
 //  Created by Evren Esat Ozkan on 05/12/14.
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
@@ -9,7 +9,7 @@
 import UIKit
 import Realm
 
-class PostViewController: UIViewController, UIWebViewDelegate {
+class WebViewController: UIViewController, UIWebViewDelegate {
     
 //    @IBOutlet var webView: UIWebView!
 //    
@@ -22,6 +22,10 @@ class PostViewController: UIViewController, UIWebViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        self.navigationController!.navigationBar.translucent = false
+        
+//        self.webView.autoresizingMask =  UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+
         self.title = haber.kaynak.isim
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(barButtonSystemItem: .Bookmarks,  target: self, action: "haberiFavorilereEkle"),

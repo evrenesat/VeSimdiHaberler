@@ -1,6 +1,6 @@
 //
 //  HaberTableViewController.swift
-//  VeSimdiHaberler
+//  Ve Simdi Haberler
 //
 //  Created by Evren Esat Ozkan on 30/11/14.
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
@@ -12,7 +12,7 @@ import Realm
 class HaberTableViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet var aramaKutusu: UISearchBar!
-    var secili_kategori = "",
+    var seciliKategori = "",
     bolumBasliklari: [String] = [],
     bolumSayisi = 0,
     gosterilecekHaberler: [String:Haber] = [:],
@@ -26,35 +26,106 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         aramaKutusu.delegate = self
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named:"menu"), style: .Plain, target: self.navigationController?.sideMenuController()?.sideMenu, action: "toggleMenu")
-        switch secili_kategori{
+        
+        switch seciliKategori{
         case "":
-            haberOzetleriniHazirla()
-            aramaKutusu.hidden = true
+            haberOzetleriniGoster()
             aramaKutusu.frame = CGRectMake(0,0,0,0)
         case "Favoriler":
             self.favorileriGoster()
         default:
-            kategoridekiHaberleriHazirla()
+            seciliKategoridekiHaberleriGoster()
         }
+        
+        self.title = seciliKategori != "" ? seciliKategori: "Ve Şimdi Haberler"
         haberGorselleriniIndir()
         
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        switch secili_kategori{
-        case "Favoriler":
-            favorileriGoster()
-        default:
-            kategorideAra()
+        var haber = gosterilecekHaberler["\(indexPath.section).\(indexPath.row)"]!,
+        hucre: UITableViewCell!
+        if haber.gorsel != "" {
+            hucre = tableView.dequeueReusableCellWithIdentifier("gorselliHucre", forIndexPath: indexPath) as UITableViewCell
+            hucre.indentationLevel  = 3
+            hucre.indentationWidth = 20
+            let iview = UIImageView(image: UIImage(contentsOfFile:"\(dokumanlarDiziniYolu)/\(haber.gorsel)"))
+            iview.frame = CGRectMake(4, 4, 50, 50)
+            hucre.contentView.addSubview(iview)
+        }else{
+            hucre = tableView.dequeueReusableCellWithIdentifier("Hucre", forIndexPath: indexPath) as UITableViewCell
         }
+        hucre.textLabel?.text = haber.baslik
+        hucre.detailTextLabel?.text = haber.ozet
+        return hucre
+    }
+    
+    
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return bolumSayisi
+    }
+    
+    
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return bolumdekiHaberSayisi[section]!
+    }
+    
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return bolumBasliklari[section]
+    }
+    
+    
+    
+    func seciliKategoridekiHaberleriGoster(){
+        gosterilecekHaberler = [:]
+        let kategori = Kategori.objectsWhere("isim = %@", seciliKategori).firstObject() as Kategori
+        bolumSayisi = kategori.kaynaklar.count
+        for kid in 0 ..< bolumSayisi {
+            var kaynak = kategori.kaynaklar[kid]
+            bolumBasliklari.append(kaynak.isim)
+            let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
+            bolumdekiHaberSayisi[kid] = Int(haberler.count > 10 ? 10 : haberler.count)
+            
+            for hid in 0 ..< bolumdekiHaberSayisi[kid]!{
+                gosterilecekHaberler["\(kid).\(hid)"] =  haberler.objectAtIndex(UInt(hid)) as? Haber
+            }
+        }
+    }
+
+    
+    func haberOzetleriniGoster(){
+        gosterilecekHaberler = [:]
+        let seciliKategoriler = Kategori.objectsWhere("secili = true")
+        bolumSayisi = Int(seciliKategoriler.count)
         
+        for katID in 0 ..< seciliKategoriler.count{
+            var ikatID = Int(katID)
+            var kategori = seciliKategoriler.objectAtIndex(katID) as Kategori
+            bolumBasliklari.append(kategori.isim)
+            bolumdekiHaberSayisi[ikatID] = 0
+            
+            for kaynakID in 0 ..< kategori.kaynaklar.count {
+                var kaynak = kategori.kaynaklar[kaynakID]
+                let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
+                
+                for hid in 0 ..< Int(haberler.count > 4 ? 4 : haberler.count){
+                    bolumdekiHaberSayisi[ikatID]! += 1
+                    gosterilecekHaberler["\(ikatID).\(bolumdekiHaberSayisi[ikatID]! - 1)"] = haberler.objectAtIndex(UInt(hid)) as? Haber
+                }
+            }
+        }
     }
     
     func favorileriGoster(){
         gosterilecekHaberler = [:]
-        self.navigationItem.title = "Favoriler"
         bolumSayisi = 1
         var haberler = Haber.objectsWhere("favori = true").sortedResultsUsingProperty("tarih", ascending: true)
         if aramaKutusu.text != ""{
@@ -71,15 +142,15 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     
     
     
-    func kategorideAra(){
-        let aramaKriteri = aramaKutusu.text
+    
+    func seciliKategorideAra(){
+        let aramaKriteri = aramaKutusu.text,
+        kategori = Kategori.objectsWhere("isim = %@", seciliKategori).firstObject() as Kategori
         gosterilecekHaberler = [:]
-        let kategori = Kategori.objectsWhere("isim = %@", secili_kategori).firstObject() as Kategori
-        self.navigationItem.title = secili_kategori
         bolumSayisi = 1
         bolumBasliklari = ["Arama Sonuclari"]
-        var sorguSeti: [NSPredicate] = []
-        var haberler = Haber.objectsWithPredicate(NSPredicate(format:"baslik CONTAINS[c] %@ or ozet CONTAINS[c] %@", aramaKriteri, aramaKriteri)!)
+        var sorguSeti: [NSPredicate] = [],
+        haberler = Haber.objectsWithPredicate(NSPredicate(format:"baslik CONTAINS[c] %@ or ozet CONTAINS[c] %@", aramaKriteri, aramaKriteri)!)
         for kaynak in kategori.kaynaklar {
             sorguSeti.append(NSPredicate(format:"kaynak = %@", kaynak)!)
         }
@@ -92,119 +163,24 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     }
     
     
-    func haberOzetleriniHazirla(){
-        gosterilecekHaberler = [:]
-        let kategori_set = Kategori.objectsWhere("secili =true")
-        self.title = "Ve Şimdi Haberler"
-        bolumSayisi = Int(kategori_set.count)
-        for katID in 0 ..< kategori_set.count{
-            var kid = Int(katID)
-            var kategori = kategori_set.objectAtIndex(katID) as Kategori
-            bolumBasliklari.append(kategori.isim)
-            bolumdekiHaberSayisi[kid] = 0
-            for kaynakID in 0 ..< kategori.kaynaklar.count {
-                var kaynak = kategori.kaynaklar[kaynakID]
-                let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
-                for hid in 0 ..< Int(haberler.count > 4 ? 4 : haberler.count){
-                    bolumdekiHaberSayisi[kid]! += 1
-                    gosterilecekHaberler["\(kid).\(bolumdekiHaberSayisi[kid]! - 1)"] = haberler.objectAtIndex(UInt(hid)) as? Haber
-                }
-            }
-        }
-    }
     
     
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         
-        
-        
-        var haber = gosterilecekHaberler["\(indexPath.section).\(indexPath.row)"]!
-        var cell: UITableViewCell!
-        if haber.gorsel != "" {
-            cell = tableView.dequeueReusableCellWithIdentifier("HaberHucresi2", forIndexPath: indexPath) as UITableViewCell
-            cell.indentationLevel  = 3
-            cell.indentationWidth = 20
-            var iview = UIImageView(image: UIImage(contentsOfFile:"\(dokumanlarDiziniYolu)/\(haber.gorsel)"))
-            iview.frame = CGRectMake(4, 4, 50, 50)
-            cell.contentView.addSubview(iview)
-//            cell.imageView?.image = UIImage(contentsOfFile:"\(dokumanlarDiziniYolu)/\(haber.gorsel)")
-//            cell.imageView?.frame = CGRectMake(4, 4, 50, 50)
-        }else{
-            cell = tableView.dequeueReusableCellWithIdentifier("HaberHucresi", forIndexPath: indexPath) as UITableViewCell
-            cell.imageView?.image = nil
-        }
-        cell.textLabel?.text = haber.baslik
-        
-        cell.detailTextLabel?.text = haber.ozet
-        return cell
-    }
-    
-    func haberGorselleriniIndir(){
-        //        func gorseliKaydet(dosya_path: String, yol: String){
-        // gecici dizine indirdigimiz gorseli uygulamamizin Document dizinine kopyaliyoruz.
-        
-        //        }
-        
-        //        func gorseliIndir(image_name: String){
-        // gorsel Document dizinimizde zaten mevcut degilse, sunucudan indiriyoruz.
-        for (id, haber)  in gosterilecekHaberler{
-            if haber.gorsel == "" && haber.gorselurl != ""{
-                var image_name = NSUUID().UUIDString
-                var haberUrl = haber.url
-                var dosya_path = dokumanlarDiziniYolu.stringByAppendingPathComponent(image_name)
-                if(!dosyaYoneticisi.fileExistsAtPath(dosya_path)) {
-                    let url = NSURL(string: haber.gorselurl)!
-                    NSURLSession.sharedSession().downloadTaskWithURL(url, {
-                        (yol, response, error) in
-                        if yol != nil{
-                        if (self.dosyaYoneticisi.copyItemAtPath(yol.path!, toPath:dosya_path, error:nil)) {
-                            println("Dosya basariyla kaydedildi")
-                            let rlm = RLMRealm.defaultRealm()
-                            rlm.transactionWithBlock() {
-                                (Haber.objectsWhere("url = %@", haberUrl).firstObject() as Haber).gorsel = image_name
-                            }
-                            dispatch_async(dispatch_get_main_queue()) {
-                                self.tableView.reloadData()
-                                return
-                            }
-                            //
-                        }else {
-                            println("Dosya kaydedilemedi!")
-                        }
-                        }
-                        
-                    }).resume()
-                }
-                
-            }
+        switch seciliKategori{
+        case "Favoriler":
+            favorileriGoster()
+        default:
+            seciliKategorideAra()
         }
         
     }
     
-    func kategoridekiHaberleriHazirla(){
-        gosterilecekHaberler = [:]
-        let kategori = Kategori.objectsWhere("isim = %@", secili_kategori).firstObject() as Kategori
-        self.navigationItem.title = secili_kategori
-        bolumSayisi = kategori.kaynaklar.count
-        for kid in 0 ..< bolumSayisi {
-            var kaynak = kategori.kaynaklar[kid]
-            bolumBasliklari.append(kaynak.isim)
-            let haberler = Haber.objectsWhere("kaynak = %@", kaynak).sortedResultsUsingProperty("tarih", ascending: true)
-            bolumdekiHaberSayisi[kid] = Int(haberler.count > 10 ? 10 : haberler.count)
-            
-            for hid in 0 ..< bolumdekiHaberSayisi[kid]!{
-                gosterilecekHaberler["\(kid).\(hid)"] =  haberler.objectAtIndex(UInt(hid)) as? Haber
-            }
-        }
-    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "haber_goster" || segue.identifier == "haber_goster2"{
             if let path = tableView.indexPathForSelectedRow(){
-                let viewController = segue.destinationViewController as PostViewController
-                //                let haber  =
-                //                viewController.haber = Haber.objectsWhere("url = %@", haber["url"]!).firstObject() as Haber
+                let viewController = segue.destinationViewController as WebViewController
                 viewController.haber = gosterilecekHaberler["\(path.section).\(path.row)"]
             }
         }
@@ -225,20 +201,39 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
     
     
     
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return bolumSayisi
+    func haberGorselleriniIndir(){
+        for (id, haber)  in gosterilecekHaberler{
+            if haber.gorsel == "" && haber.gorselurl != ""{
+                var gorselAdi = NSUUID().UUIDString
+                var haberURL = haber.url
+                var gorselYerelYol = dokumanlarDiziniYolu.stringByAppendingPathComponent(gorselAdi)
+                if !dosyaYoneticisi.fileExistsAtPath(gorselYerelYol) {
+                    let url = NSURL(string: haber.gorselurl)!
+                    NSURLSession.sharedSession().downloadTaskWithURL(url, {
+                        (yol, response, error) in
+                        if yol != nil{
+                            if (self.dosyaYoneticisi.copyItemAtPath(yol.path!, toPath:gorselYerelYol, error:nil)) {
+                                println("Dosya basariyla kaydedildi")
+                                let rlm = RLMRealm.defaultRealm()
+                                rlm.transactionWithBlock() {
+                                    (Haber.objectsWhere("url = %@", haberURL).firstObject() as Haber).gorsel = gorselAdi
+                                }
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self.tableView.reloadData()
+                                }
+                            }else {
+                                println("Dosya kaydedilemedi!")
+                            }
+                        }
+                        
+                    }).resume()
+                }
+                
+            }
+        }
+        
     }
     
 
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bolumdekiHaberSayisi[section]!
-    }
-    
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return bolumBasliklari[section]
-    }
     
 }

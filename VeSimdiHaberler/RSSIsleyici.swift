@@ -14,9 +14,9 @@ class RSSIsleyici: NSObject, NSXMLParserDelegate {
     //
     // bu sinif URL'si verilen RSS haber kayanigini ceker, cozumler, veritabaninda olmayan haberleri kaydeder.
     //
-    let parser = NSXMLParser(),
+    let parserOpt: NSXMLParser!,
     realm = RLMRealm.defaultRealm()
-    var         element = "",
+    var element = "",
     haberBasligi = "",
     image = "",
     haberURL = "",
@@ -29,7 +29,9 @@ class RSSIsleyici: NSObject, NSXMLParserDelegate {
         // veri tabanindan ilgili haber kaynagi kaydini aliyoruz
         kaynak = Kaynak.objectsWhere("url = %@", kaynakURL).firstObject() as Kaynak
         // xmlparser nesnesini haber kaynaginin URLsi ile ilklendiriyoruz
-        parser = NSXMLParser (contentsOfURL: NSURL(string:kaynakURL))!
+//        println(kaynakURL)
+        let parserOpt : NSXMLParser! = NSXMLParser(contentsOfURL: NSURL(string:kaynakURL))
+        if let parser = parserOpt{
         // kendimizi xml parserin delegesi olarak atiyoruz
         parser.delegate = self
         // xml parserla ilgili gerekli ayarlari yapiyoruz
@@ -38,26 +40,13 @@ class RSSIsleyici: NSObject, NSXMLParserDelegate {
         parser.shouldResolveExternalEntities = false
         // xml dosyasini indirip cozumleme islemini baslatiyoruz
         parser.parse()
+        }else{
+            println("cant connect")
+        }
         
     }
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
-        
-        // bu metod xml parser tarafindan her elementi islemeye baslarken cagrilir
-        // elementten degerlerini sakladigimiz degiskenlerde onceki elementlerden kalan degerleri temizliyoruz
-        // eger elemnt "media:" ile basliyorsa ilkBuldugunGorseliAl metoduyla haberin gorselini
-        
-        element = elementName
-        if elementName == "item" {
-            haberBasligi = ""
-            haberURL = ""
-            image = ""
-            haberOzet = ""
-        }
-        if elementName.hasPrefix("media:") && image == ""{
-            image = ilkBuldugunGorseliAl(attributeDict.description)
-        }
-    }
+
     
     func ilkBuldugunGorseliAl(html: String) -> String{
         // Bu metod verilen metin içerisinde sonu jpg yada png ile biten ilk URLyi geri döndürür.
@@ -112,39 +101,49 @@ class RSSIsleyici: NSObject, NSXMLParserDelegate {
             break
         }
     }
+    
+    
+    func parser(parser: NSXMLParser, didStartElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!, attributes attributeDict: [NSObject : AnyObject]!) {
+        
+        // bu metod xml parser tarafindan her elementi islemeye baslarken cagrilir
+        // elementten degerlerini sakladigimiz degiskenlerde onceki elementlerden kalan degerleri temizliyoruz
+        // eger elemnt "media:" ile basliyorsa ilkBuldugunGorseliAl metoduyla haberin gorselini
+        
+        element = elementName
+        if elementName == "item" {
+            haberBasligi = ""
+            haberURL = ""
+            image = ""
+            haberOzet = ""
+        }
+        if elementName.hasPrefix("media:") && image == ""{
+            image = ilkBuldugunGorseliAl(attributeDict.description)
+        }
+    }
+    
 }
+
 
 
 
 class haberleriGuncelle {
-    // uygulama acilisinda cagrilir. tum secili kategorilerdeki tum kaynaklari gunceller.
-    let kategori_set = Kategori.objectsWhere("secili==true"),
-    realm = RLMRealm.defaultRealm()
-    
+    let kategoriler = Kategori.objectsWhere("secili = true")
     init(){
-        var seciliKategoriSayisi = Int(kategori_set.count)
-        
-        for i in 0 ..< seciliKategoriSayisi {
-            var kategori = kategori_set.objectAtIndex(UInt(i)) as Kategori
-            for kaynak in kategori.kaynaklar{
-                var kaynak_url = kaynak.url
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-                    RSSIsleyici(kaynakURL: kaynak_url)
-                    return
-                }
-            }
+        for i in 0 ..< Int(kategoriler.count) {
+            var kategori = kategoriler.objectAtIndex(UInt(i)) as Kategori
+            kategoriGuncelle(kategori: kategori)
         }
-        
     }
 }
 
-class kategoriGuncelle {
-    // secili kategori menuden cagirildiginda cagirilir.
+class kategoriGuncelle{
     init(kategori: Kategori){
         for kaynak in kategori.kaynaklar{
-            var kaynak_url = kaynak.url
-            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-                RSSIsleyici(kaynakURL: kaynak_url)
+            var kaynakURL = kaynak.url
+            let reentrantAvoidanceQueue = dispatch_queue_create("reentrantAvoidanceQueue", DISPATCH_QUEUE_SERIAL);
+            dispatch_async(reentrantAvoidanceQueue){
+//                sleep(1)
+                RSSIsleyici(kaynakURL: kaynakURL)
                 return
             }
         }

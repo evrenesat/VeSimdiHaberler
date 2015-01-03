@@ -5,7 +5,7 @@
 //  Created by Evren Esat Ozkan on 17/11/14.
 //  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
 //
-
+//
 import UIKit
 import Realm
 
@@ -20,18 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let realm = RLMRealm.defaultRealm()
         
         // olusturulan realm veritabanının yolunu konsola yazdırıyoruz
-        println(RLMRealm.defaultRealm().path)
+//        println(RLMRealm.defaultRealm().path)
         
         navigasyonKontrolcusu = ENSideMenuNavigationController(menuTableViewController: menuTableViewKontrolcusu, contentViewController:nil)
         let anaStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if Kategori.objectsWhere("secili = true").count > 0{
+            // seçili haber kaynağı varsa, güncel haberleri indiriyor ve haber özetlerini gösteriyoruz.
             var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
-
             HaberKaynaklariniGuncelle(kategoriEkrani: nil)
         }
         else{
+            // hiçbir kategori seçili değilse kategoriler ekranını gösteriyoruz.
             var acilis_ekrani = anaStoryboard.instantiateViewControllerWithIdentifier("kategori_secimi") as KategoriViewController
             self.navigasyonKontrolcusu!.pushViewController(acilis_ekrani, animated: false)
             HaberKaynaklariniGuncelle(kategoriEkrani: acilis_ekrani)

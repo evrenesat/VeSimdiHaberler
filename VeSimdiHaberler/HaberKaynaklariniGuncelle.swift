@@ -11,7 +11,8 @@ import Realm
 import UIKit
 
 //let UYGULAMA_SUNUCUSU = "http://mobil-iz.org/swift-data/api/"
-let UYGULAMA_SUNUCUSU = "http://localhost:8000/"
+let UYGULAMA_SUNUCUSU = "http://evrenes.at/mobiliz/"
+//let UYGULAMA_SUNUCUSU = "http://localhost:8000/"
 let HABER_ONBELLEK_SURESI = 2 // gun
 
 class HaberKaynaklariniGuncelle{
@@ -66,7 +67,7 @@ class HaberKaynaklariniGuncelle{
                     self.gorseliIndir(kategori["gorsel"] as String)
                 }
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.kategoriEkrani?.reloadData()
+                    self.kategoriEkrani?.kategoriEkraniniYenile()
                     return
                 }
         }
@@ -82,7 +83,7 @@ class HaberKaynaklariniGuncelle{
             println("Dosya basariyla kaydedildi")
             
             dispatch_async(dispatch_get_main_queue()) {
-                self.kategoriEkrani?.reloadData()
+                self.kategoriEkrani?.kategoriEkraniniYenile()
                 return
             }
             

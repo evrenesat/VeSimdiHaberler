@@ -1,9 +1,9 @@
 //
-//  MyMenuTableViewController.swift
-//  SwiftSideMenu
+//  MenuViewController.swift
+//  Ve Simdi Haberler
 //
-//  Created by Evgeny Nazarov on 29.09.14.
-//  Copyright (c) 2014 Evgeny Nazarov. All rights reserved.
+//  Created by Evren Esat Ozkan on 30/11/14.
+//  Copyright (c) 2014 Evren Esat Ozkan. All rights reserved.
 //
 
 import UIKit
@@ -43,7 +43,7 @@ class MenuTableViewKontrolcusu: UITableViewController {
     }
     
     func yeniHucreOlustur(hucreAdi: String = "HUCRE") -> UITableViewCell{
-        var hucre = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: hucreAdi)
+        let hucre = UITableViewCell(style: UITableViewCellStyle.Default, reuseIdentifier: hucreAdi)
         hucre.backgroundColor = UIColor.clearColor()
         hucre.textLabel!.textColor = UIColor.darkGrayColor()
         
@@ -81,10 +81,10 @@ class MenuTableViewKontrolcusu: UITableViewController {
             hucre = yeniHucreOlustur(hucreAdi: hacreAdi)
         }
         var simge: UIImage!
+        hucre!.textLabel?.textColor = UIColor.blackColor()
         switch row{
         case menuSatirSayisi - 2:
             hucre!.textLabel!.text = "Favoriler"
-            hucre!.textLabel
             simge = UIImage(named: "star")
         case menuSatirSayisi - 1:
             hucre!.textLabel!.text = "Kategoriler"
@@ -107,7 +107,7 @@ class MenuTableViewKontrolcusu: UITableViewController {
         
 
         seciliMenuOgesi = indexPath.row
-        let cell = tableView.cellForRowAtIndexPath(indexPath),
+        let hucre = tableView.cellForRowAtIndexPath(indexPath),
             anaStoryboard: UIStoryboard = UIStoryboard(name: "Main",bundle: nil)
         if indexPath.row == menuSatirSayisi - 1{
             // kategoriler dugmesi basildi, "kategori_secimi" viewini etkinlestirip ekrana getiriyoruz.
@@ -116,7 +116,7 @@ class MenuTableViewKontrolcusu: UITableViewController {
         }else{
             // bir kategori ya da "Favoriler" secildiginde "haberler" viewini
             let haberListViewController = anaStoryboard.instantiateViewControllerWithIdentifier("haberler") as HaberTableViewController
-            haberListViewController.secili_kategori = cell!.textLabel!.text!
+            haberListViewController.seciliKategori = hucre!.textLabel!.text!
             sideMenuController()?.setContentViewController(haberListViewController)
         }
     }
