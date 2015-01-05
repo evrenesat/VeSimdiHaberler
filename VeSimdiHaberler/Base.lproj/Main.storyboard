@@ -194,7 +194,7 @@
         <!--Navigation Controller-->
         <scene sceneID="aQl-Cx-exW">
             <objects>
-                <navigationController storyboardIdentifier="fooo" id="Pnr-iX-WA0" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="iOS7PushSegueWorkaround" id="Pnr-iX-WA0" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Cn-j1-2q2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -219,21 +219,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" scalesPageToFit="YES" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="weY-Np-HYy">
-                                <rect key="frame" x="-5" y="-5" width="600" height="605"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                            </webView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VCL-CV-x5i">
                                 <rect key="frame" x="290" y="332" width="20" height="20"/>
                             </activityIndicatorView>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" allowsInlineMediaPlayback="NO" mediaPlaybackRequiresUserAction="NO" mediaPlaybackAllowsAirPlay="NO" keyboardDisplayRequiresUserAction="NO" translatesAutoresizingMaskIntoConstraints="NO" id="weY-Np-HYy">
+                                <rect key="frame" x="12" y="-5" width="585" height="605"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="k1J-8B-zRd" firstAttribute="top" secondItem="VCL-CV-x5i" secondAttribute="bottom" constant="248" id="6oM-qb-6ud"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="weY-Np-HYy" secondAttribute="trailing" constant="-11" id="7Vp-pN-51c"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="weY-Np-HYy" secondAttribute="trailing" constant="-13" id="7Vp-pN-51c"/>
                             <constraint firstItem="VCL-CV-x5i" firstAttribute="centerX" secondItem="9iR-2c-u1h" secondAttribute="centerX" id="LG7-Tq-rFw"/>
-                            <constraint firstItem="weY-Np-HYy" firstAttribute="leading" secondItem="9iR-2c-u1h" secondAttribute="leadingMargin" constant="-21" id="LiY-AZ-kDH"/>
+                            <constraint firstItem="weY-Np-HYy" firstAttribute="leading" secondItem="9iR-2c-u1h" secondAttribute="leadingMargin" constant="-4" id="LiY-AZ-kDH"/>
                             <constraint firstItem="weY-Np-HYy" firstAttribute="top" secondItem="9iR-2c-u1h" secondAttribute="topMargin" constant="-5" id="Qqx-Yb-4Kg"/>
                             <constraint firstItem="weY-Np-HYy" firstAttribute="bottom" secondItem="k1J-8B-zRd" secondAttribute="top" id="aZJ-wr-lWO"/>
                         </constraints>

@@ -52,10 +52,23 @@ class WebViewController: UIViewController, UIWebViewDelegate {
             self.haber.favori = self.haber.favori == true ? false : true
         }
         var mesaj = self.haber.favori ? "Favorilere Eklendi" : "Favorilerinizden Çıkarıldı"
+        alert(mesaj)
+    }
+    
+    func alert(mesaj: String){
+     if objc_getClass("UIAlertController") == nil {
+        let alert = UIAlertView()
+        alert.title = ""
+        alert.message = mesaj
+        alert.addButtonWithTitle("Tamam")
+        alert.show()
+     }else{
         var alert = UIAlertController(title: mesaj, message: "", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Tamam", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
+
     
     func webViewDidStartLoad(webView: UIWebView!) {
         activityIndicator.hidden = false
