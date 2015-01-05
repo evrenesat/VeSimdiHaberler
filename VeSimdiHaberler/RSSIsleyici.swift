@@ -40,10 +40,11 @@ class RSSIsleyici: NSObject, NSXMLParserDelegate {
         parser.shouldResolveExternalEntities = false
         // xml dosyasini indirip cozumleme islemini baslatiyoruz
         parser.parse()
-        }else{
-            println("cant connect")
         }
-        
+//        else{
+//            println("cant connect")
+//        }
+//        
     }
     
 

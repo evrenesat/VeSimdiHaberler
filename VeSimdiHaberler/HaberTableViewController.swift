@@ -215,7 +215,7 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
                         (yol, response, error) in
                         if yol != nil{
                             if (self.dosyaYoneticisi.copyItemAtPath(yol.path!, toPath:gorselYerelYol, error:nil)) {
-                                println("Dosya basariyla kaydedildi")
+//                                println("Dosya basariyla kaydedildi")
                                 let rlm = RLMRealm.defaultRealm()
                                 rlm.transactionWithBlock() {
                                     (Haber.objectsWhere("url = %@", haberURL).firstObject() as Haber).gorsel = gorselAdi
@@ -223,9 +223,10 @@ class HaberTableViewController: UITableViewController, UITableViewDataSource, UI
                                 dispatch_async(dispatch_get_main_queue()) {
                                     self.tableView.reloadData()
                                 }
-                            }else {
-                                println("Dosya kaydedilemedi!")
                             }
+//                            else {
+//                                println("Dosya kaydedilemedi!")
+//                            }
                         }
                         
                     }).resume()

@@ -80,16 +80,17 @@ class HaberKaynaklariniGuncelle{
         
         if (dosyaYoneticisi.copyItemAtPath(yol, toPath:dosya_path, error:nil)) {
             
-            println("Dosya basariyla kaydedildi")
+//            println("Dosya basariyla kaydedildi")
             
             dispatch_async(dispatch_get_main_queue()) {
                 self.kategoriEkrani?.kategoriEkraniniYenile()
                 return
             }
             
-        }else {
-            println("Dosya kaydedilemedi!")
         }
+//        else {
+//            println("Dosya kaydedilemedi!")
+//        }
         
     }
     

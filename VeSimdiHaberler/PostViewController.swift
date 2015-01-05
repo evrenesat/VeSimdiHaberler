@@ -33,7 +33,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
         
         webView.delegate = self
         let url: NSURL = NSURL(string: haber.url.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))!
-        println("postlink :|\(url.standardizedURL)|")
+//        println("postlink :|\(url.standardizedURL)|")
         let request = NSURLRequest(URL: url) as NSURLRequest
         webView.loadRequest(request)
 
